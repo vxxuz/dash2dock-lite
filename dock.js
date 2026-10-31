@@ -1187,6 +1187,10 @@ export let Dock = GObject.registerClass(
     }
 
     _snapToContainerEdge(container, child, edge = true) {
+      // Measuring a not-yet-staged actor logs St-CRITICAL (theme node lookup)
+      if (!child.get_stage()) {
+        return;
+      }
       child.x = container.width / 2 - child.width / 2;
       child.y = container.height / 2 - child.height / 2;
       if (edge) {
